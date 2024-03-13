@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }}</title>
+        <!-- Bootstrap CDN -->
+        <link rel="stylesheet" href="../static/css/bootstrap/bootstrap.min.css">
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="../static/fonts/poppins">
+        <!-- External Iconc CDN link -->
+        <link rel="stylesheet" type="text/css" href="../static/css/datatable.css">
+        <!-- External CSS -->
+        <link rel="stylesheet" href="../static/css/style.css">
+        <!-- <link rel="stylesheet" href="../static/css/final.css"> -->
+        <link rel="stylesheet" href="../static/css/file_proceed.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/datepicker.css" />
+    </head>
+    <body>
+        
+        <!-- navbar -->
+        {% block navbar %} {% endblock navbar %}
+        <!-- navbar -->
+
+        <!-- upload block -->
+        {% block file_upload %} {% endblock file_upload %}
+        <!-- upload block -->
+
+        <!-- files block-->
+        {% block processed_files %} {% endblock processed_files %}
+        <!-- files block -->
+
+        <!-- Bootstrap JS-->
+        {% include "js.html" %}
+    </body>
+</html>

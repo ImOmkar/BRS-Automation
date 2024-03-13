@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f6f6f6;
+  font-family: "Poppins", sans-serif;
+  padding: 1.5rem;
+}
+
+.company-logo {
+  height: 3.85rem;
+  width: auto;
+}
+.date-range-input-with-icon {
+  margin-bottom: 20px;
+  border: 1px solid #BDBDBD;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.user-div {
+  background-color: #fff;
+  padding: 0.625rem;
+  border-radius: 0.688rem;
+  box-shadow: 0px 2px 4px 1px #00000026;
+}
+
+.btn-purple ,
+.btn-purple-2 {
+  color: #ffffff;
+  box-shadow: 0px 2px 4px 1px #00000026;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 10rem;
+  height: 3rem;
+  border: none;
+  border-radius: 1.313rem;
+}
+
+.btn-purple-2
+{
+width: 8.4rem;
+height: 2rem;
+font-size: 12px;
+}
+.btn-purple,
+.btn-purple-2 {
+  background-color: #81689d;
+}
+
+.btn-purple:hover,
+.btn-purple-2:hover {
+  background-color: #6a5780;
+}
+
+.btn-secondary,
+.calender-icon,
+.calender-selected-date {
+  border: 1px solid #d9d9d9;
+  background-color: #d9d9d9;
+  color: #4a4a4a;
+  border-radius: 8px !important;
+  padding: 10px 30px !important;
+}
+
+.calender-icon {
+  padding: 10px !important;
+}
+
+.custom-container {
+  border-radius: 0.5rem;
+  padding: 1.563rem;
+  margin-top: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px 1px #00000026;
+}
+
+.custom-form-control {
+  width: 8.5rem;
+  padding: 10px 0;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #d9d9d9;
+  background-color: #d9d9d9;
+  color: #4a4a4a;
+  border-radius: 8px !important;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.file-label {
+  cursor: pointer;
+}
+
+.menu-tab {
+  margin-left: 12rem;
+  background: #fff;
+  box-shadow: 0px 2px 4px 1px #00000026;
+  padding: 18px 100px 10px 100px;
+  border-radius: 40px;
+}
+
+.modal .modal-body {
+  border: 1px solid #81689d !important;
+  border-radius: 7px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #81689d;
+  margin: 25px 50px 0px 50px;
+}
+
+.step-progress {
+  display: flex;
+  align-items: start;
+  justify-content: space-around;
+  position: relative;
+}
+
+.step {
+  text-align: center;
+  position: relative;
+}
+
+.step-name {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #6d6d6d;
+  background-color: rgb(196, 196, 196);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  position: relative;
+  z-index: 1;
+}
+.step-circle.completed {
+  background-color: #81689d;
+}
+
+.step-line {
+  position: absolute;
+  height: 2px;
+  background-color: #909fb4;
+  z-index: 0;
+  top: 16px;
+  transform: translateY(-1px);
+}
