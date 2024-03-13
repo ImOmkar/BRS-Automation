@@ -29,7 +29,7 @@ def login():
             flash('You have been logged in successfully!', 'success')
             return redirect('home')
         else:
-            flash('failed to login', 'danger')
+            flash('Oops! It seems there was an error with your login. Please ensure your username and password are correct.', 'danger')
     return render_template('authentication/login.html', title='HDFC 4301 | Login', form=form)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -42,7 +42,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash(f'Your Account has been created.', 'success')
+        flash(f'Hey {form.username.data}, Your Account has been created.', 'success')
         return redirect(url_for('login'))
     return render_template('authentication/register.html', title='HDFC 4301 | Register', form=form)
 
@@ -578,9 +578,9 @@ def get_data():
         end = time.time()
         total = end - start 
         print('took', total, 'seconds')
-        flash(f"Processing Completed in {total} seconds...", 'success')
+        flash(f"Processing Completed in {total} seconds. Your file is ready to download", 'success')
     else:
-        flash("Select files", 'error')
+        flash("Select files", 'danger')
     return redirect(url_for('home'))
     
 #download link through flask app
@@ -589,7 +589,7 @@ def download_file(filepath):
     try:
         return send_file(filepath, as_attachment=True)
     except Exception as e:
-        flash(f"str{e}", 'error')
+        flash(f"str{e}", 'danger')
         print(f"str{e}")
         return redirect(url_for('home'))  
 
@@ -600,10 +600,11 @@ def delete_processed_files(id):
         file = ProcessedFiles.query.get(id)
         db.session.delete(file)
         db.session.commit()
-        flash('file removed')
+        flash('file removed', 'success')
         return redirect(url_for('home'))
     except Exception as e:
         print(f"str{e}")
+        flash(f'str{e}', 'danger')
         return redirect(url_for('home'))
 
 # to save file and return dictionary
