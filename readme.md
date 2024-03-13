@@ -48,3 +48,11 @@
 #once all the desiging is done, run below command. this command will remove all the unnecessary styling from output.css. our output file size is now less than 10kb.
 
 > npx tailwindcss -i ./flask_app/static/input.css -o ./flask_app/static/output.css --minify
+
+
+
+
+
+git remote -v
+git remote add origin <repository_url>
+git push origin <branch_name>
