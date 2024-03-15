@@ -1,5 +1,6 @@
 from openpyxl.styles import Alignment
 from datetime import datetime
+import pandas as pd
 
 #To get the start and end row number that contains data in input sheet
 def start_end_row(source_ws, term, from_line=1, column=1):
@@ -45,7 +46,7 @@ def to_integer(start_row, end,  sheet, column_letter):
             cell = sheet[column_letter + str(row)]
             if cell.value is not None:  # Check if the cell has a value
                 try:
-                    cell.value = int(float(cell.value))
+                    cell.value = pd.to_numeric(cell.value, errors='coerce')
                 except ValueError:
                     print(
                         f"Unable to convert value {cell.value} to an integer in row {row}.")

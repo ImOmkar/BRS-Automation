@@ -138,7 +138,8 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
     except Exception as e:
         print('str{e}')
 
-    # # annex 1 and 4
+    # =======================================================================#
+    # annex 1 and 4
     try:
         amount_total_14 = 0
         for i in range(5, sheet1.max_row + 1):
@@ -255,68 +256,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         total_cell_41.font = Font(bold=True)
     except Exception as e:
         print('str{e}')
-
-    # annex 1 and 2
-    # amount_total_23 = 0
-    # for i in range(5, sheet2.max_row + 1):
-    #     # Assuming column 13 is the 13th column
-    #     value_sheet2 = sheet2.cell(row=i, column=13).value
-
-    #     # Check if the value in Sheet2 column 13 is not "N/A" or None
-    #     if value_sheet2 not in ["N/A", None]:
-    #         # Search for matching value in sheet3 from the 6th row
-    #         matching_value_found = False
-    #         for row in sheet3.iter_rows(min_row=5, min_col=20, values_only=True):
-    #             if value_sheet2 == row[0]:  # Assuming 20th column is index 0
-    #                 matching_value_found = True
-    #                 break
-
-    #         if matching_value_found:
-    #             if not date_added:
-    #                 date_cell = destination_sheet.cell(row=start_row, column=1)
-    #                 date_cell.value = final_date
-    #                 date_cell.number_format = 'mm/dd/yyyy'
-    #                 date_cell.fill = PatternFill(
-    #                     start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-    #                 # Set alignment to right
-    #                 date_cell.alignment = Alignment(horizontal='right')
-    #                 date_added = True
-
-    #             # Assuming you want to copy all columns
-    #             for j in range(1, sheet2.max_column + 1):
-    #                 source_cell = sheet2.cell(row=i, column=j)
-    #                 destination_cell = destination_sheet.cell(
-    #                     row=start_row, column=j + 1)
-    #                 destination_cell.value = source_cell.value
-    #                 if source_cell.has_style:
-    #                     destination_cell.font = copy(source_cell.font)
-    #                     destination_cell.border = copy(source_cell.border)
-    #                     destination_cell.fill = copy(source_cell.fill)
-    #                     destination_cell.number_format = copy(
-    #                         source_cell.number_format)
-    #                     destination_cell.protection = copy(
-    #                         source_cell.protection)
-    #                     destination_cell.alignment = copy(
-    #                         source_cell.alignment)
-
-    #                 if j == 17 and source_cell.value is not None:
-    #                     try:
-    #                         if isinstance(source_cell.value, (int, float)):
-    #                             amount_total_23 += int(source_cell.value)
-    #                         else:
-    #                             print("Non-numeric value found in column 17")
-    #                     except ValueError:
-    #                         print("Non-integer value found in column 17")
-
-    #             start_row += 1
-
-    # total_cell_23 = destination_sheet.cell(row=start_row, column=18)
-    # total_cell_23.value = amount_total_23
-    # total_cell_23.number_format = '0.00'
-    # total_cell_23.font = Font(bold=True)
-
     # =======================================================================#
 
+    # =======================================================================#
     # annex 2 and 3
     try:
         amount_total_23 = 0
@@ -379,7 +321,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         total_cell_23.font = Font(bold=True)
     except Exception as e:
         print('str{e}')
+    # =======================================================================#
 
+    # =======================================================================#
     # annex 3 and 2
     try:
         amount_total_32 = 0
@@ -443,7 +387,8 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
     except Exception as e:
         print('str{e}')
     #=======================================================================#   
-                    
+    
+    # =======================================================================#    
     # annex 3 and 4
     try:
         amount_total_34 = 0
@@ -501,7 +446,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         total_cell_34.font = Font(bold=True)
     except Exception as e:
         print('str{e}')
+    # =======================================================================#
 
+    # =======================================================================#
     # annex 4 with 3
     try:
         amount_total_43 = 0
@@ -560,7 +507,4 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         total_cell_43.font = Font(bold=True)
     except Exception as e:
         print('str{e}')
-
-
-    # except Exception as e:
-    #     print(f"str{e}")
+    # =======================================================================#
