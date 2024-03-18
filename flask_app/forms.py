@@ -10,7 +10,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()], 
                         render_kw={"placeholder": "Enter your email"})
     
-    password = PasswordField('Password', validators=[DataRequired()], 
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, message="Password must be at least 8 characters long")], 
                              render_kw={"placeholder": "Enter your password"})
     
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')], 
@@ -21,12 +21,12 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('username is taken')
+            raise ValidationError('username is already taken')
     
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError('email is taken')
+            raise ValidationError('email is already taken')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)], 

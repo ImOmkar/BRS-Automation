@@ -44,6 +44,8 @@ def register():
         db.session.commit()
         flash(f'Hey {form.username.data}, Your Account has been created.', 'success')
         return redirect(url_for('login'))
+    else:
+        flash(f'Oops! It seems there was an error with your registration. Please fill everything correctly', 'danger')
     return render_template('authentication/register.html', title='HDFC 4301 | Register', form=form)
 
 @app.route("/logout")
