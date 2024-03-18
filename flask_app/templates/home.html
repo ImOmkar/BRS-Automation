@@ -29,6 +29,17 @@
         <form action="{{ url_for('get_data') }}" method="POST" enctype="multipart/form-data">
             <div class="d-flex justify-content-center align-items-center">
                 <div class="col">
+                    <div class="h5">Reconed File</div>
+                    <div class="custom-form-control d-flex justify-content-center align-items-center" style="cursor: pointer;" onclick="document.getElementById('reconed-file').click()">
+                        <input type="file" id="reconed-file" style="display: none;" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="reconed-file">
+                        <p class="m-0 text-truncate">Select file</p>
+                    </div>
+                    <span id="reconed-file-span" class="d-inline-block text-truncate" style="max-width: 100px;"></span>
+                    <!-- <button type="submit" value="Submit" class="btn-purple-2 mt-2">Upload</button> -->
+                    <!-- </form> -->
+                </div>
+            
+                <div class="col">
                     <div class="h5">Bank File</div>
                     <div class="custom-form-control d-flex justify-content-center align-items-center" style="cursor: pointer;" onclick="document.getElementById('bank-file').click()">
                         <input type="file" id="bank-file" style="display: none;" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="bank-file">
@@ -138,15 +149,19 @@
                     <div class="step-line" style="left: calc(30px); width: 400px"></div>
                 </div>
                 <div class="step" id="step4">
-                    <div class="step-circle">4</div>
-                    <div class="step-line" style="left: calc(90px); width: 440px"></div>
+                    <div class="step-circle"><span class="step-icon">4</span></div>
+                    <div class="step-line" style="left: calc(30px); width: 400px"></div>
                 </div>
                 <div class="step" id="step5">
                     <div class="step-circle">5</div>
-                    <div class="step-line" style="left: calc(40px); width: 310px"></div>
+                    <div class="step-line" style="left: calc(90px); width: 440px"></div>
                 </div>
                 <div class="step" id="step6">
                     <div class="step-circle">6</div>
+                    <div class="step-line" style="left: calc(40px); width: 310px"></div>
+                </div>
+                <div class="step" id="step7">
+                    <div class="step-circle">7</div>
                 </div>
             </div>
         </div>

@@ -37,15 +37,16 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'Hey {form.username.data}, Your Account has been created.', 'success')
-        return redirect(url_for('login'))
-    else:
-        flash(f'Oops! It seems there was an error with your registration. Please fill everything correctly', 'danger')
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+            db.session.add(user)
+            db.session.commit()
+            flash(f'Hey {form.username.data}, Your Account has been created.', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash(f'Oops! It seems there was an error with your registration. Please fill everything correctly', 'danger')
     return render_template('authentication/register.html', title='HDFC 4301 | Register', form=form)
 
 @app.route("/logout")
