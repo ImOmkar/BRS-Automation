@@ -62,38 +62,43 @@ def home():
         if not current_user.is_authenticated:
             return redirect(url_for('login'))
         files = ProcessedFiles.query.order_by(ProcessedFiles.created_at)
-        return render_template('home.html', files=files, title="HDFC 4301 | Home")
+        return render_template('home.html', files=files, title="HDFC 4310 | Home")
     except Exception as e:
         print(f"str{e}")
 
 @app.route("/get_data/", methods=['POST'])
 def get_data():
-    # start = time.time()
+    start = time.time()
     try:
-        #request.files.get to get files
+        #request.files.get to get a file.
+        #we're targetting "name" attribute in the html form to get the file from the frontend.
+        reconed_file = request.files.get('reconed-file')
         tejashree_file = request.files.get('bank-file')
         merchant_file = request.files.get('merchant-file')
         ledgerwise_file = request.files.get('ledger-file')
         pennant_file = request.files.get('pennant-file')
         #request.form.get to get date
         date_string = request.form.get('recon_date')
-        # Convert the string to a datetime object
-        recon_date = datetime.strptime(date_string, '%Y-%m-%d')
-    except Exception as e:
-        print(f"str{e}")
-
-    try:
-        start = time.time()
-        load_data = load_mastersheet()
-        end = time.time()
-        total = end - start
-        print(total)
-        file_path = os.path.join(app.root_path, 'media', 'processed files', f'BRS -{recon_date.year}-{recon_date.month}-{recon_date.day}- (HDFCCOLL4310) -BFL-HDFC-UPI COLLECTION INTEGRATION 4310.xlsx')
     except Exception as e:
         print(f"str{e}")
 
     #==================================main processing begin=============================#
-    if tejashree_file and merchant_file and ledgerwise_file and pennant_file and recon_date:
+    if reconed_file and tejashree_file and merchant_file and ledgerwise_file and pennant_file and date_string:
+        
+        # Convert the datetime string to a datetime object
+        recon_date = datetime.strptime(date_string, '%Y-%m-%d')
+        
+        #read reconed file and build file path to the destination directory
+        try:
+            start = time.time()
+            load_data = load_mastersheet(file=reconed_file)
+            end = time.time()
+            total = end - start
+            print(total)
+            file_path = os.path.join(app.root_path, 'media', 'processed files', f'BRS -{recon_date.year}-{recon_date.month}-{recon_date.day}- (HDFCCOLL4310) -BFL-HDFC-UPI COLLECTION INTEGRATION 4310.xlsx')
+        except Exception as e:
+            print(f"str{e}")
+        
         try:
             #DR IN BANK
             if tejashree_file:
@@ -115,7 +120,13 @@ def get_data():
                 start_end = start_end_row(source_ws, 'transaction date')
 
                 #target file row
-                start_row = 6
+                start_row = 0
+                for row in range(sheet.max_row, 0, -1):
+                    if any(sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)):
+                        start_row = row + 1
+                        break
+                
+                print("start row for DR IN BANK is", start_row)
 
                 #append data to the target columns    
                 for source_cell, target_columns in mapped_dictionary.items():
@@ -165,15 +176,8 @@ def get_data():
 
                 # alignment to center
                 align_to_center(sheet, horizontal='center', vertical='center')
-                
-                # add remarks, reason, fpr
-                last_row = 0
-                for row in range(sheet.max_row, 0, -1):
-                    if any(sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)):
-                        last_row = row
-                        break
                     
-                for row in sheet.iter_rows(min_row=6, max_row=last_row, min_col=6, max_col=6, values_only=True):
+                for row in sheet.iter_rows(min_row=start_row, max_row=sheet.max_row + 1, min_col=6, max_col=6, values_only=True):
                     if row[0] is not None:
                         cell_value = str(row[0])
 
@@ -197,8 +201,6 @@ def get_data():
 
                 workbook.save(file_path)
 
-                # workbook.save(file_path)
-
                 print('DR IN BANK - DONE')
             
             #CR IN BANK
@@ -215,7 +217,13 @@ def get_data():
                 start_end = start_end_row(source_ws, 'external mid')
 
                 #target file row
-                start_row = 6
+                start_row = 0
+                for row in range(sheet.max_row, 0, -1):
+                    if any(sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)):
+                        start_row = row + 1
+                        break
+                
+                print("start row for CR IN BANK is", start_row)
 
                 # Iterate over the cell mappings
                 for source_cell, target_column in mapped_dictionary.items():
@@ -226,8 +234,7 @@ def get_data():
                         sheet[target_cell].value = source_cell[0].value
                         target_row += 1  # Increment target row index
 
-                        # Apply ageing
-                
+                # Apply ageing
                 apply_ageing(sheet, recon_date, start_row, sheet.max_row + 1, column=15)
 
                 # Apply TAT
@@ -251,7 +258,6 @@ def get_data():
                 #alignment to center
                 align_to_center(sheet, horizontal='center', vertical='center')
                 
-                # add remarks, reason, fpr
                 last_row = 0
                 for row in range(sheet.max_row, 0, -1):
                     if any(sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)):
@@ -267,8 +273,6 @@ def get_data():
                         print(f"Row {row} exceeds the maximum row count in the sheet.")
 
                 workbook.save(file_path)
-                
-                # workbook.save(file_path)
 
                 print('CR IN BANK - DONE')
 
@@ -287,7 +291,13 @@ def get_data():
                 start_end = start_end_row(source_ws, 'voucher date', from_line=2)
 
                 #target file row for ledgerwise data
-                start_row = 6
+                start_row = 0
+                for row in range(sheet.max_row, 0, -1):
+                    if any(sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)):
+                        start_row = row + 1
+                        break
+                
+                print("start row for DR IN LEDGER with LEDGERWISE file", start_row)
 
                 for source_cell, target_columns in mapped_dictionary.items():
                     source_column = source_ws[source_cell].column
@@ -395,8 +405,6 @@ def get_data():
 
                 workbook.save(file_path)
 
-                # workbook.save(file_path)
-
                 print('DR IN LEDGER (PENNANT FILE) - DONE')
             
             #CR IN LEDGER using Ledgerwise and pennant file
@@ -414,7 +422,13 @@ def get_data():
                 start_end = start_end_row(source_ws, 'voucher date', from_line=2)
 
                 # target file row for ledgerwise data
-                start_row = 6
+                start_row = 0
+                for row in range(sheet.max_row, 0, -1):
+                    if any(sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)):
+                        start_row = row + 1
+                        break
+                
+                print("start row for CR IN LEDGER (LEDGERWISE file)", start_row)
 
                 for source_cell, target_columns in mapped_dictionary.items():
                     source_column = source_ws[source_cell].column
@@ -493,10 +507,19 @@ def get_data():
                 for source_cell, target_column in mapped_dictionary_pennant.items():
                     source_column = pennant_source_ws[source_cell].column
                     target_row = pennant_start_row  # Start from the specified start row
-                    for source_cell in pennant_source_ws.iter_rows(min_row=pennant_start_end.get('start'), max_row=pennant_start_end.get('end'), min_col=source_column, max_col=source_column):
-                        target_cell = f'{target_column}{target_row}'
-                        sheet[target_cell].value = source_cell[0].value
-                        target_row += 1  # Increment target row index
+                    
+                    # Iterate through rows from start_row to end_row in the source worksheet
+                    for source_row in range(start_end.get('start'), start_end.get('end') + 1):
+                        # Check if the value in the "cramt header" column is not zero
+                        if source_ws.cell(row=source_row, column=source_column).value != 0:
+                            # Loop over each target column for the source cell
+                            for target_column in target_columns:
+                                # Copy entire row to the target sheet
+                                for col in range(1, source_ws.max_column + 1):
+                                    source_value = source_ws.cell(row=source_row, column=col).value
+                                    target_cell = f'{target_column}{target_row}'
+                                    sheet[target_cell].value = source_value
+                                target_row += 1  # Increment target row index
 
                 add_cr_to_column(sheet=sheet, start_row=pennant_start_row, end=sheet.max_row + 1, column_name='R')
 
@@ -550,13 +573,13 @@ def get_data():
                 add_remarks_reason_fpr(sheet, 6, last_row)
                 
                 # Vlookup and Knockoffs
-                knockoff_matching(sheet1=workbook['DR IN BANK'],
-                                  sheet2=workbook['CR IN BANK'],
-                                  sheet3=workbook['DR IN LEDGER'],
-                                  sheet4=workbook['CR IN LEDGER'],
-                                  destination_sheet=workbook['Knock off data'],
-                                  top_sheet_date=recon_date
-                                  )
+                # knockoff_matching(sheet1=workbook['DR IN BANK'],
+                #                   sheet2=workbook['CR IN BANK'],
+                #                   sheet3=workbook['DR IN LEDGER'],
+                #                   sheet4=workbook['CR IN LEDGER'],
+                #                   destination_sheet=workbook['Knock off data'],
+                #                   top_sheet_date=recon_date
+                #                   )
 
                 workbook.save(file_path)
 

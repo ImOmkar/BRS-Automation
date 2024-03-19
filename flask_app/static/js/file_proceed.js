@@ -24,10 +24,11 @@ const markStepComplete = (stepNumber) => {
   stepLine.style.backgroundColor = "#81689D";
 };
 
-addFileChangeListener('bank-file', 'bank-file-span', 1); // Pass step number 1 for bank file
-addFileChangeListener('merchant-file', 'merchant-file-span', 2); // Pass step number 1 for bank file
-addFileChangeListener('ledger-report-file', 'ledger-report-file-span', 3); // Pass step number 2 for ledger report file
-addFileChangeListener('lms-report-file', 'lms-report-file-span', 4); // Pass step number 3 for LMS report file
+addFileChangeListener('reconed-file', 'reconed-file-span', 1); // Pass step number 1 for reconed file
+addFileChangeListener('bank-file', 'bank-file-span', 2); // Pass step number 2 for bank file
+addFileChangeListener('merchant-file', 'merchant-file-span', 3); // Pass step number 3 for bank file
+addFileChangeListener('ledger-report-file', 'ledger-report-file-span', 4); // Pass step number 4 for ledger report file
+addFileChangeListener('lms-report-file', 'lms-report-file-span', 5); // Pass step number 5 for LMS report file
 
 let currentStep = 1;
 const steps = document.querySelectorAll(".step");
@@ -40,7 +41,7 @@ function showStep(stepNumber) {
 function updateProgressStep(stepName) {
   // Assuming 'Calendar Date' is the name of the step for selecting a date
   if (stepName === 'Calendar Date') {
-    markStepComplete(5); // Mark the fifth step as complete
+    markStepComplete(6); // Mark the fifth step as complete
   }
 }
 

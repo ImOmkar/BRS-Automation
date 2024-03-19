@@ -11,12 +11,12 @@ def apply_ageing(sheet, recon_date, start_row, end, column):
             date = sheet.cell(row=row, column=column).value
 
             # Check if the variable is a datetime object
-            if isinstance(date, datetime):
+            if date is not None and isinstance(date, datetime):
                 # Calculate ageing
                 ageing = abs((recon_date - date).days)
             else:
                 # If date is not a datetime object, assume it's a string
-                if isinstance(date, str):
+                if date is not None and isinstance(date, str):
                     # Identify the original format of the date
                     original_format = get_original_format(date)
                     if original_format is not None:
@@ -77,7 +77,7 @@ def apply_SLA(sheet, start_row, end, column):
             if value <= 4:
                 result = "Within SLA"
             else:
-                result = "Beyond SLA"
+                result = "Beyond SLA"   
 
             sheet.cell(row=row, column=3).value = result
     except Exception as e:
@@ -90,7 +90,7 @@ def apply_month(recon_date, sheet, start_row, end, column):
             # Retrieve the value from column E for the current row
             value = sheet.cell(row=row, column=column).value
 
-            if not isinstance(value, str):
+            if value is not None and not isinstance(value, str):
                 # Calculate the date to compare
                 compare_date = recon_date - \
                     timedelta(days=12*365/12)  # Subtract 12 months
@@ -102,7 +102,7 @@ def apply_month(recon_date, sheet, start_row, end, column):
 
             else:
                 # If value is not a datetime object, assume it's a string
-                if isinstance(value, str):
+                if value is not None and isinstance(value, str):
                     # Identify the original format of the date
                     original_format = get_original_format(value)
                     if original_format is not None:

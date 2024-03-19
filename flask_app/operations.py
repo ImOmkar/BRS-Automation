@@ -126,14 +126,17 @@ def add_dr_to_column(sheet, start_row, end, column_name):
 def add_cr_to_column(sheet, start_row, end, column_name):
     try:
         for row in range(start_row, end):
-            sheet[f'{column_name}{row}'] = 'CR'
+            e_column_value = sheet[f'E{row}'].value
+            if e_column_value is not None and e_column_value != '':
+                sheet[f'{column_name}{row}'] = 'CR'
     except Exception as e:
         print(f"str{e}")
 
 def add_remarks_reason_fpr(sheet, start_row, end):
     try:
         for row in range(start_row, end + 1):
-            if row <= sheet.max_row: 
+            e_column_value = sheet[f'E{row}'].value
+            if e_column_value is not None and e_column_value != '' and row <= sheet.max_row: 
                 sheet[f'Y{row}'] = 'credit not received'
                 sheet[f'Z{row}'] = 'credit not received'
                 sheet[f'AA{row}'] = 'service provider'
