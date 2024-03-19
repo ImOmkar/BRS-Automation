@@ -41,28 +41,29 @@ def apply_TAT(sheet, start_row, end, column):
             value = sheet.cell(row=row, column=column).value
 
             # Apply the formula based on the value and update the cell in column A
-            if value <= 3:
-                result = "0 to 3 Days"
-            elif value <= 7:
-                result = "4 to 7 Days"
-            elif value <= 15:
-                result = "8 to 15 Days"
-            elif value <= 30:
-                result = "16 to 30 Days"
-            elif value <= 60:
-                result = "31 to 60 Days"
-            elif value <= 90:
-                result = "61 to 90 Days"
-            elif value <= 180:
-                result = "91 to 180 Days"
-            elif value <= 270:
-                result = "181 to 270 Days"
-            elif value <= 360:
-                result = "271 to 360 Days"
-            else:
-                result = "> 361 Days"
+            if value is not None:
+                if value <= 3:
+                    result = "0 to 3 Days"
+                elif value <= 7:
+                    result = "4 to 7 Days"
+                elif value <= 15:
+                    result = "8 to 15 Days"
+                elif value <= 30:
+                    result = "16 to 30 Days"
+                elif value <= 60:
+                    result = "31 to 60 Days"
+                elif value <= 90:
+                    result = "61 to 90 Days"
+                elif value <= 180:
+                    result = "91 to 180 Days"
+                elif value <= 270:
+                    result = "181 to 270 Days"
+                elif value <= 360:
+                    result = "271 to 360 Days"
+                else:
+                    result = "> 361 Days"
 
-            sheet.cell(row=row, column=1).value = result
+                sheet.cell(row=row, column=1).value = result
     except Exception as e:
         print(f"str{e}")
 
@@ -74,12 +75,13 @@ def apply_SLA(sheet, start_row, end, column):
             value = sheet.cell(row=row, column=column).value
 
             # Apply the formula based on the value and update the cell in column C
-            if value <= 4:
-                result = "Within SLA"
-            else:
-                result = "Beyond SLA"   
+            if value is not None:
+                if value <= 4:
+                    result = "Within SLA"
+                else:
+                    result = "Beyond SLA"   
 
-            sheet.cell(row=row, column=3).value = result
+                sheet.cell(row=row, column=3).value = result
     except Exception as e:
         print(f"str{e}")
 
@@ -329,13 +331,13 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         amount_total_32 = 0
         for i in range(5, sheet3.max_row + 1):
             # Assuming column 13 is the 13th column
-            value_sheet3 = sheet3.cell(row=i, column=13).value
+            value_sheet3 = sheet3.cell(row=i, column=20).value
 
             # Check if the value in Sheet2 column 13 is not "N/A" or None
             if value_sheet3 not in ["N/A", None]:
                 # Search for matching value in sheet3 from the 6th row
                 matching_value_found = False
-                for row in sheet2.iter_rows(min_row=5, min_col=20, values_only=True):
+                for row in sheet2.iter_rows(min_row=5, min_col=13, values_only=True):
                     if value_sheet3 == row[0]:  # Assuming 20th column is index 0
                         matching_value_found = True
                         break

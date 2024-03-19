@@ -573,13 +573,13 @@ def get_data():
                 add_remarks_reason_fpr(sheet, 6, last_row)
                 
                 # Vlookup and Knockoffs
-                # knockoff_matching(sheet1=workbook['DR IN BANK'],
-                #                   sheet2=workbook['CR IN BANK'],
-                #                   sheet3=workbook['DR IN LEDGER'],
-                #                   sheet4=workbook['CR IN LEDGER'],
-                #                   destination_sheet=workbook['Knock off data'],
-                #                   top_sheet_date=recon_date
-                #                   )
+                knockoff_matching(sheet1=workbook['DR IN BANK'],
+                                  sheet2=workbook['CR IN BANK'],
+                                  sheet3=workbook['DR IN LEDGER'],
+                                  sheet4=workbook['CR IN LEDGER'],
+                                  destination_sheet=workbook['Knock off data'],
+                                  top_sheet_date=recon_date
+                                  )
 
                 workbook.save(file_path)
 
