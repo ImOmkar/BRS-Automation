@@ -133,7 +133,6 @@ def apply_month(recon_date, sheet, start_row, end, column):
 def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_sheet_date):
     try:
         date_added = False
-        start_row = destination_sheet.max_row
         # Format for the date
         date_format = '%m/%d/%Y'
         final_date = top_sheet_date.strftime(date_format)
@@ -141,36 +140,50 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         print('str{e}')
 
     # =======================================================================#
-    # annex 1 and 4
+    #ANNEX 1 and 4
     try:
         amount_total_14 = 0
-        for i in range(5, sheet1.max_row + 1):
+        start_row = destination_sheet.max_row + 1
+
+        # Adding date in the first column of the row
+        date_cell = destination_sheet.cell(row=start_row, column=1)
+        date_cell.value = final_date
+        date_cell.number_format = 'mm/dd/yyyy'
+        date_cell.fill = PatternFill(
+            start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+        date_cell.alignment = Alignment(horizontal='right')
+
+        # Copy headers from Sheet 2
+        for j in range(1, sheet1.max_column + 1):
+            source_cell = sheet1.cell(row=5, column=j)
+            destination_cell = destination_sheet.cell(row=start_row, column=j + 1)
+            destination_cell.value = source_cell.value
+            if source_cell.has_style:
+                destination_cell.font = copy(source_cell.font)
+                destination_cell.border = copy(source_cell.border)
+                destination_cell.fill = copy(source_cell.fill)
+                destination_cell.number_format = copy(source_cell.number_format)
+                destination_cell.protection = copy(source_cell.protection)
+                destination_cell.alignment = copy(source_cell.alignment)
+
+        start_row += 1
+
+        for i in range(6, sheet1.max_row + 1):  # Assuming headers are in row 5
             value_sheet1 = sheet1.cell(row=i, column=9).value
+
             if value_sheet1 not in ["N/A", None]:
                 matching_value_found = False
-                for row in sheet4.iter_rows(min_row=5, min_col=17, max_col=17, values_only=True):
+                for row in sheet4.iter_rows(min_row=5, min_col=17, values_only=True):
                     if value_sheet1 == row[0]:
                         matching_value_found = True
                         break
 
                 if matching_value_found:
-                    if not date_added:
-                        date_cell = destination_sheet.cell(
-                            row=start_row, column=1)
-                        date_cell.value = final_date
-                        date_cell.number_format = 'mm/dd/yyyy'
-                        date_cell.fill = PatternFill(
-                            start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-                        # Set alignment to right
-                        date_cell.alignment = Alignment(horizontal='right')
-                        date_added = True
-
                     for j in range(1, sheet1.max_column + 1):
                         source_cell = sheet1.cell(row=i, column=j)
                         destination_cell = destination_sheet.cell(
                             row=start_row, column=j + 1)
                         destination_cell.value = source_cell.value
-
                         if source_cell.has_style:
                             destination_cell.font = copy(source_cell.font)
                             destination_cell.border = copy(source_cell.border)
@@ -190,46 +203,56 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                                     print("Non-numeric value found in column 17")
                             except ValueError:
                                 print("Non-integer value found in column 17")
-
+                    
                     start_row += 1
+        
 
         total_cell_14 = destination_sheet.cell(row=start_row, column=10)
         total_cell_14.value = amount_total_14
         total_cell_14.number_format = '0.00'
         total_cell_14.font = Font(bold=True)
-    except Exception as e:
-        print('str{e}')
 
-    # annex 4 and 1
+        print("ANNEX 1 and 4 DONE")
+    except Exception as e:
+        print(f'{str(e)}')
+        
+    # ANNEX 4 and 1
     try:
         amount_total_41 = 0
-        for i in range(5, sheet4.max_row + 1):
+        start_row = destination_sheet.max_row + 1
+
+        # Copy headers from Sheet 4
+        for j in range(1, sheet4.max_column + 1):
+            source_cell = sheet4.cell(row=5, column=j)
+            destination_cell = destination_sheet.cell(
+                row=start_row, column=j + 1)
+            destination_cell.value = source_cell.value
+            if source_cell.has_style:
+                destination_cell.font = copy(source_cell.font)
+                destination_cell.border = copy(source_cell.border)
+                destination_cell.fill = copy(source_cell.fill)
+                destination_cell.number_format = copy(source_cell.number_format)
+                destination_cell.protection = copy(source_cell.protection)
+                destination_cell.alignment = copy(source_cell.alignment)
+
+        start_row += 1
+
+        for i in range(6, sheet4.max_row + 1):  # Assuming headers are in row 5
             value_sheet4 = sheet4.cell(row=i, column=17).value
+
             if value_sheet4 not in ["N/A", None]:
                 matching_value_found = False
-                for row in sheet1.iter_rows(min_row=5, min_col=9, max_col=9, values_only=True):
+                for row in sheet1.iter_rows(min_row=5, min_col=9, values_only=True):
                     if value_sheet4 == row[0]:
                         matching_value_found = True
                         break
 
                 if matching_value_found:
-                    if not date_added:
-                        date_cell = destination_sheet.cell(
-                            row=start_row, column=1)
-                        date_cell.value = final_date
-                        date_cell.number_format = 'mm/dd/yyyy'
-                        date_cell.fill = PatternFill(
-                            start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-                        # Set alignment to right
-                        date_cell.alignment = Alignment(horizontal='right')
-                        date_added = True
-
                     for j in range(1, sheet4.max_column + 1):
                         source_cell = sheet4.cell(row=i, column=j)
                         destination_cell = destination_sheet.cell(
-                            row=start_row + 1, column=j + 1)
+                            row=start_row, column=j + 1)
                         destination_cell.value = source_cell.value
-
                         if source_cell.has_style:
                             destination_cell.font = copy(source_cell.font)
                             destination_cell.border = copy(source_cell.border)
@@ -256,39 +279,44 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         total_cell_41.value = amount_total_41
         total_cell_41.number_format = '0.00'
         total_cell_41.font = Font(bold=True)
-    except Exception as e:
-        print('str{e}')
-    # =======================================================================#
 
+        print("ANNEX 4 and 1 DONE")
+    except Exception as e:
+        print(f'{str(e)}')
+    # =======================================================================#
+    
     # =======================================================================#
     # annex 2 and 3
     try:
         amount_total_23 = 0
-        for i in range(5, sheet2.max_row + 1):
-            # Assuming column 13 is the 13th column
+        start_row = destination_sheet.max_row + 1
+
+        # Copy headers from Sheet 2
+        for j in range(1, sheet2.max_column + 1):
+            source_cell = sheet2.cell(row=5, column=j)
+            destination_cell = destination_sheet.cell(row=start_row, column=j + 1)
+            destination_cell.value = source_cell.value
+            if source_cell.has_style:
+                destination_cell.font = copy(source_cell.font)
+                destination_cell.border = copy(source_cell.border)
+                destination_cell.fill = copy(source_cell.fill)
+                destination_cell.number_format = copy(source_cell.number_format)
+                destination_cell.protection = copy(source_cell.protection)
+                destination_cell.alignment = copy(source_cell.alignment)
+
+        start_row += 1
+
+        for i in range(6, sheet2.max_row + 1):  # Assuming headers are in row 5
             value_sheet2 = sheet2.cell(row=i, column=13).value
 
-            # Check if the value in Sheet2 column 13 is not "N/A" or None
             if value_sheet2 not in ["N/A", None]:
-                # Search for matching value in sheet3 from the 6th row
                 matching_value_found = False
                 for row in sheet3.iter_rows(min_row=5, min_col=20, values_only=True):
-                    if value_sheet2 == row[0]:  # Assuming 20th column is index 0
+                    if value_sheet2 == row[0]:
                         matching_value_found = True
                         break
 
                 if matching_value_found:
-                    if not date_added:
-                        date_cell = destination_sheet.cell(row=start_row, column=1)
-                        date_cell.value = final_date
-                        date_cell.number_format = 'mm/dd/yyyy'
-                        date_cell.fill = PatternFill(
-                            start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-                        # Set alignment to right
-                        date_cell.alignment = Alignment(horizontal='right')
-                        date_added = True
-
-                    # Assuming you want to copy all columns
                     for j in range(1, sheet2.max_column + 1):
                         source_cell = sheet2.cell(row=i, column=j)
                         destination_cell = destination_sheet.cell(
@@ -304,7 +332,6 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                                 source_cell.protection)
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
-                            
 
                         if j == 17 and source_cell.value is not None:
                             try:
@@ -315,46 +342,50 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                             except ValueError:
                                 print("Non-integer value found in column 17")
 
+                
                     start_row += 1
+                    
 
         total_cell_23 = destination_sheet.cell(row=start_row, column=18)
         total_cell_23.value = amount_total_23
         total_cell_23.number_format = '0.00'
         total_cell_23.font = Font(bold=True)
-    except Exception as e:
-        print('str{e}')
-    # =======================================================================#
 
-    # =======================================================================#
+        print("ANNEX 2 and 3 DONE")
+    except Exception as e:
+        print(f'{str(e)}')
+
     # annex 3 and 2
     try:
         amount_total_32 = 0
-        for i in range(5, sheet3.max_row + 1):
-            # Assuming column 13 is the 13th column
+        start_row = destination_sheet.max_row + 1
+
+        # Copy headers from Sheet 2
+        for j in range(1, sheet3.max_column + 1):
+            source_cell = sheet3.cell(row=5, column=j)
+            destination_cell = destination_sheet.cell(row=start_row, column=j + 1)
+            destination_cell.value = source_cell.value
+            if source_cell.has_style:
+                destination_cell.font = copy(source_cell.font)
+                destination_cell.border = copy(source_cell.border)
+                destination_cell.fill = copy(source_cell.fill)
+                destination_cell.number_format = copy(source_cell.number_format)
+                destination_cell.protection = copy(source_cell.protection)
+                destination_cell.alignment = copy(source_cell.alignment)
+
+        start_row += 1
+
+        for i in range(6, sheet3.max_row + 1):  # Assuming headers are in row 5
             value_sheet3 = sheet3.cell(row=i, column=20).value
 
-            # Check if the value in Sheet2 column 13 is not "N/A" or None
             if value_sheet3 not in ["N/A", None]:
-                # Search for matching value in sheet3 from the 6th row
                 matching_value_found = False
                 for row in sheet2.iter_rows(min_row=5, min_col=13, values_only=True):
-                    if value_sheet3 == row[0]:  # Assuming 20th column is index 0
+                    if value_sheet3 == row[0]:
                         matching_value_found = True
                         break
 
                 if matching_value_found:
-                    if not date_added:
-                        date_cell = destination_sheet.cell(
-                            row=start_row, column=1)
-                        date_cell.value = final_date
-                        date_cell.number_format = 'mm/dd/yyyy'
-                        date_cell.fill = PatternFill(
-                            start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-                        # Set alignment to right
-                        date_cell.alignment = Alignment(horizontal='right')
-                        date_added = True
-
-                    # Assuming you want to copy all columns
                     for j in range(1, sheet3.max_column + 1):
                         source_cell = sheet3.cell(row=i, column=j)
                         destination_cell = destination_sheet.cell(
@@ -370,7 +401,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                                 source_cell.protection)
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
-                            
+
                         if j == 17 and source_cell.value is not None:
                             try:
                                 if isinstance(source_cell.value, (int, float)):
@@ -379,47 +410,60 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                                     print("Non-numeric value found in column 17")
                             except ValueError:
                                 print("Non-integer value found in column 17")
-
+                            
+                    
                     start_row += 1
+                    
 
         total_cell_32 = destination_sheet.cell(row=start_row, column=18)
         total_cell_32.value = amount_total_32
         total_cell_32.number_format = '0.00'
         total_cell_32.font = Font(bold=True)
+
+        print("ANNEX 3 and 2 DONE")
     except Exception as e:
-        print('str{e}')
-    #=======================================================================#   
+        print(f'{str(e)}')
+    # =======================================================================#
     
-    # =======================================================================#    
+    # =======================================================================# 
     # annex 3 and 4
     try:
         amount_total_34 = 0
-        for i in range(5, sheet3.max_row + 1):
+        start_row = destination_sheet.max_row + 1
+
+        # Copy headers from Sheet 2
+        for j in range(1, sheet3.max_column + 1):
+            source_cell = sheet3.cell(row=5, column=j)
+            destination_cell = destination_sheet.cell(
+                row=start_row, column=j + 1)
+            destination_cell.value = source_cell.value
+            if source_cell.has_style:
+                destination_cell.font = copy(source_cell.font)
+                destination_cell.border = copy(source_cell.border)
+                destination_cell.fill = copy(source_cell.fill)
+                destination_cell.number_format = copy(
+                    source_cell.number_format)
+                destination_cell.protection = copy(source_cell.protection)
+                destination_cell.alignment = copy(source_cell.alignment)
+
+        start_row += 1
+
+        for i in range(6, sheet3.max_row + 1):  # Assuming headers are in row 5
             value_sheet3 = sheet3.cell(row=i, column=20).value
+
             if value_sheet3 not in ["N/A", None]:
                 matching_value_found = False
                 for row in sheet4.iter_rows(min_row=5, min_col=20, values_only=True):
-                    if value_sheet3 == row[0]: 
+                    if value_sheet3 == row[0]:
                         matching_value_found = True
                         break
 
                 if matching_value_found:
-                    if not date_added:
-                        date_cell = destination_sheet.cell(row=start_row, column=1)
-                        date_cell.value = final_date
-                        date_cell.number_format = 'mm/dd/yyyy'
-                        date_cell.fill = PatternFill(
-                            start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-                        # Set alignment to right
-                        date_cell.alignment = Alignment(horizontal='right')
-                        date_added = True
-
                     for j in range(1, sheet3.max_column + 1):
                         source_cell = sheet3.cell(row=i, column=j)
                         destination_cell = destination_sheet.cell(
                             row=start_row, column=j + 1)
                         destination_cell.value = source_cell.value
-                        
                         if source_cell.has_style:
                             destination_cell.font = copy(source_cell.font)
                             destination_cell.border = copy(source_cell.border)
@@ -446,16 +490,36 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         total_cell_34.value = amount_total_34
         total_cell_34.number_format = '0.00'
         total_cell_34.font = Font(bold=True)
-    except Exception as e:
-        print('str{e}')
-    # =======================================================================#
 
-    # =======================================================================#
+        print("ANNEX 3 and 4 DONE")
+    except Exception as e:
+        print(f'{str(e)}')
+        
     # annex 4 with 3
     try:
         amount_total_43 = 0
-        for i in range(5, sheet4.max_row + 1):
+        start_row = destination_sheet.max_row + 1
+
+        # Copy headers from Sheet 2
+        for j in range(1, sheet4.max_column + 1):
+            source_cell = sheet4.cell(row=5, column=j)
+            destination_cell = destination_sheet.cell(
+                row=start_row, column=j + 1)
+            destination_cell.value = source_cell.value
+            if source_cell.has_style:
+                destination_cell.font = copy(source_cell.font)
+                destination_cell.border = copy(source_cell.border)
+                destination_cell.fill = copy(source_cell.fill)
+                destination_cell.number_format = copy(
+                    source_cell.number_format)
+                destination_cell.protection = copy(source_cell.protection)
+                destination_cell.alignment = copy(source_cell.alignment)
+
+        start_row += 1
+
+        for i in range(6, sheet4.max_row + 1):  # Assuming headers are in row 5
             value_sheet4 = sheet4.cell(row=i, column=20).value
+
             if value_sheet4 not in ["N/A", None]:
                 matching_value_found = False
                 for row in sheet3.iter_rows(min_row=5, min_col=20, values_only=True):
@@ -464,23 +528,11 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                         break
 
                 if matching_value_found:
-                    if not date_added:
-                        date_cell = destination_sheet.cell(
-                            row=start_row, column=1)
-                        date_cell.value = final_date
-                        date_cell.number_format = 'mm/dd/yyyy'
-                        date_cell.fill = PatternFill(
-                            start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-                        # Set alignment to right
-                        date_cell.alignment = Alignment(horizontal='right')
-                        date_added = True
-
                     for j in range(1, sheet4.max_column + 1):
                         source_cell = sheet4.cell(row=i, column=j)
                         destination_cell = destination_sheet.cell(
-                            row=start_row + 1, column=j + 1)
+                            row=start_row, column=j + 1)
                         destination_cell.value = source_cell.value
-
                         if source_cell.has_style:
                             destination_cell.font = copy(source_cell.font)
                             destination_cell.border = copy(source_cell.border)
@@ -503,10 +555,12 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
 
                     start_row += 1
 
-        total_cell_43 = destination_sheet.cell(row=start_row + 1, column=18)
+        total_cell_43 = destination_sheet.cell(row=start_row, column=18)
         total_cell_43.value = amount_total_43
         total_cell_43.number_format = '0.00'
         total_cell_43.font = Font(bold=True)
+
+        print("ANNEX 4 and 3 DONE")
     except Exception as e:
-        print('str{e}')
-    # =======================================================================#
+        print(f'{str(e)}')
+    # # =======================================================================#
