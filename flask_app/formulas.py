@@ -217,6 +217,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         print(f'{str(e)}')
         
     # ANNEX 4 and 1
+    matched_data_4_1 = []
     try:
         amount_total_41 = 0
         start_row = destination_sheet.max_row + 1
@@ -245,7 +246,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                 for row in sheet1.iter_rows(min_row=5, min_col=9, values_only=True):
                     if value_sheet4 == row[0]:
                         matching_value_found = True
-                        matched_data_1_4.append((i, [sheet4.cell(row=i, column=j).value for j in range(1, sheet4.max_column + 1)]))
+                        matched_data_4_1.append((i, [sheet4.cell(row=i, column=j).value for j in range(1, sheet4.max_column + 1)]))
                         break
 
                 if matching_value_found:
@@ -280,41 +281,31 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
     except Exception as e:
         print(f'{str(e)}')
         
-    # Iterate through sheet1 and sheet4 simultaneously
-    for i in range(6, sheet1.max_row + 1):
-        row_matched = False
-        
-        # Iterate through matched_data_1_4
+    # Remove matched rows from Sheet1
+    for i in range(sheet1.max_row, 5, -1):
         for index, (row_index, data_row) in enumerate(matched_data_1_4):
             match_found = True
-            
-            # Check if each cell value in the row matches the corresponding value in data_row
             for j, cell_value in enumerate(data_row, start=1):
                 if sheet1.cell(row=i, column=j).value != cell_value:
                     match_found = False
                     break
-            
-            # If all cell values match, set row_matched to True and break the loop
             if match_found:
-                row_matched = True
-                # Delete the matched row from sheet1
                 sheet1.delete_rows(i)
-                # Delete the matched row from sheet4
-                sheet4.delete_rows(row_index)
-                # Remove the matched data from matched_data_1_4
                 del matched_data_1_4[index]
                 break
-        
-        # If the row was not matched in sheet1, do something (for example, print or continue to the next row)
-        if not row_matched:
-            # Do something with the unmatched row in sheet1, for example:
-            print(f"Row {i} in sheet1 is not matched.")
 
-    # If there are still remaining rows in matched_data_1_4 after iterating through sheet1
-    # (This loop will only execute if there are unmatched rows in sheet4)
-    for row_index, data_row in matched_data_1_4:
-        # Delete the remaining unmatched rows from sheet4
-        sheet4.delete_rows(row_index)
+    # Remove matched rows from Sheet4
+    for i in range(sheet4.max_row, 5, -1):
+        for index, (row_index, data_row) in enumerate(matched_data_4_1):
+            match_found = True
+            for j, cell_value in enumerate(data_row, start=1):
+                if sheet4.cell(row=i, column=j).value != cell_value:
+                    match_found = False
+                    break
+            if match_found:
+                sheet4.delete_rows(i)
+                del matched_data_4_1[index]
+                break
     # =======================================================================#
     
     # =======================================================================#
@@ -395,6 +386,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         print(f'{str(e)}')
 
     # annex 3 and 2
+    matched_data_3_2 = []
     try:
         amount_total_32 = 0
         start_row = destination_sheet.max_row + 1
@@ -422,7 +414,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                 for row in sheet2.iter_rows(min_row=5, min_col=13, values_only=True):
                     if value_sheet3 == row[0]:
                         matching_value_found = True
-                        matched_data_2_3.append((i, [sheet3.cell(row=i, column=j).value for j in range(1, sheet3.max_column + 1)]))
+                        matched_data_3_2.append((i, [sheet3.cell(row=i, column=j).value for j in range(1, sheet3.max_column + 1)]))
                         break
 
                 if matching_value_found:
@@ -459,41 +451,31 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
     except Exception as e:
         print(f'{str(e)}')
     
-    # Iterate through sheet1 and sheet4 simultaneously
-    for i in range(6, sheet2.max_row + 1):
-        row_matched = False
-        
-        # Iterate through matched_data_1_4
+    # Remove matched rows from Sheet1
+    for i in range(sheet2.max_row, 5, -1):
         for index, (row_index, data_row) in enumerate(matched_data_2_3):
             match_found = True
-            
-            # Check if each cell value in the row matches the corresponding value in data_row
             for j, cell_value in enumerate(data_row, start=1):
                 if sheet2.cell(row=i, column=j).value != cell_value:
                     match_found = False
                     break
-            
-            # If all cell values match, set row_matched to True and break the loop
             if match_found:
-                row_matched = True
-                # Delete the matched row from sheet1
                 sheet2.delete_rows(i)
-                # Delete the matched row from sheet4
-                sheet3.delete_rows(row_index)
-                # Remove the matched data from matched_data_1_4
                 del matched_data_2_3[index]
                 break
-        
-        # If the row was not matched in sheet1, do something (for example, print or continue to the next row)
-        if not row_matched:
-            # Do something with the unmatched row in sheet1, for example:
-            print(f"Row {i} in sheet2 is not matched.")
-
-    # If there are still remaining rows in matched_data_1_4 after iterating through sheet1
-    # (This loop will only execute if there are unmatched rows in sheet4)
-    for row_index, data_row in matched_data_2_3:
-        # Delete the remaining unmatched rows from sheet4
-        sheet3.delete_rows(row_index)
+            
+    # Remove matched rows from Sheet4
+    for i in range(sheet3.max_row, 5, -1):
+        for index, (row_index, data_row) in enumerate(matched_data_3_2):
+            match_found = True
+            for j, cell_value in enumerate(data_row, start=1):
+                if sheet3.cell(row=i, column=j).value != cell_value:
+                    match_found = False
+                    break
+            if match_found:
+                sheet3.delete_rows(i)
+                del matched_data_3_2[index]
+                break
     # =======================================================================#
     
     # =======================================================================# 
@@ -564,6 +546,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
         print(f'{str(e)}')
         
     # annex 4 with 3
+    matched_data_4_3 = []
     try:
         amount_total_43 = 0
         start_row = destination_sheet.max_row + 1
@@ -593,7 +576,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                 for row in sheet3.iter_rows(min_row=5, min_col=20, values_only=True):
                     if value_sheet4 == row[0]:
                         matching_value_found = True
-                        matched_data_3_4.append((i, [sheet4.cell(row=i, column=j).value for j in range(1, sheet4.max_column + 1)]))
+                        matched_data_4_3.append((i, [sheet4.cell(row=i, column=j).value for j in range(1, sheet4.max_column + 1)]))
                         break
 
                 if matching_value_found:
@@ -628,39 +611,29 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
     except Exception as e:
         print(f'{str(e)}')
     
-    # Iterate through sheet1 and sheet4 simultaneously
-    for i in range(6, sheet3.max_row + 1):
-        row_matched = False
-        
-        # Iterate through matched_data_1_4
+    # Remove matched rows from Sheet1
+    for i in range(sheet3.max_row, 5, -1):
         for index, (row_index, data_row) in enumerate(matched_data_3_4):
             match_found = True
-            
-            # Check if each cell value in the row matches the corresponding value in data_row
             for j, cell_value in enumerate(data_row, start=1):
                 if sheet3.cell(row=i, column=j).value != cell_value:
                     match_found = False
                     break
-            
-            # If all cell values match, set row_matched to True and break the loop
             if match_found:
-                row_matched = True
-                # Delete the matched row from sheet1
                 sheet3.delete_rows(i)
-                # Delete the matched row from sheet4
-                sheet4.delete_rows(row_index)
-                # Remove the matched data from matched_data_1_4
                 del matched_data_3_4[index]
                 break
-        
-        # If the row was not matched in sheet1, do something (for example, print or continue to the next row)
-        if not row_matched:
-            # Do something with the unmatched row in sheet1, for example:
-            print(f"Row {i} in sheet3 is not matched.")
-
-    # If there are still remaining rows in matched_data_1_4 after iterating through sheet1
-    # (This loop will only execute if there are unmatched rows in sheet4)
-    for row_index, data_row in matched_data_3_4:
-        # Delete the remaining unmatched rows from sheet4
-        sheet4.delete_rows(row_index)
+            
+    # Remove matched rows from Sheet4
+    for i in range(sheet4.max_row, 5, -1):
+        for index, (row_index, data_row) in enumerate(matched_data_4_3):
+            match_found = True
+            for j, cell_value in enumerate(data_row, start=1):
+                if sheet4.cell(row=i, column=j).value != cell_value:
+                    match_found = False
+                    break
+            if match_found:
+                sheet4.delete_rows(i)
+                del matched_data_4_3[index]
+                break
     # =======================================================================#
