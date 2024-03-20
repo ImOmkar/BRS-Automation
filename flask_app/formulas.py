@@ -195,14 +195,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
 
-                        if j == 9 and source_cell.value is not None:
-                            try:
-                                if isinstance(source_cell.value, (int, float)):
-                                    amount_total_14 += int(source_cell.value)
-                                else:
-                                    print("Non-numeric value found in column 17")
-                            except ValueError:
-                                print("Non-integer value found in column 17")
+                        if j == 9:
+                            print(source_cell.value)
+                            amount_total_14 += int(source_cell.value)
                     
                     start_row += 1
         
@@ -264,14 +259,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
 
-                        if j == 17 and source_cell.value is not None:
-                            try:
-                                if isinstance(source_cell.value, (int, float)):
-                                    amount_total_41 += int(source_cell.value)
-                                else:
-                                    print("Non-numeric value found in column 17")
-                            except ValueError:
-                                print("Non-integer value found in column 17")
+                        if j == 17:
+                            print(source_cell.value)
+                            amount_total_41 += int(source_cell.value)
 
                     start_row += 1
 
@@ -322,6 +312,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                         destination_cell = destination_sheet.cell(
                             row=start_row, column=j + 1)
                         destination_cell.value = source_cell.value
+                        
                         if source_cell.has_style:
                             destination_cell.font = copy(source_cell.font)
                             destination_cell.border = copy(source_cell.border)
@@ -333,14 +324,18 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
 
-                        if j == 17 and source_cell.value is not None:
-                            try:
-                                if isinstance(source_cell.value, (int, float)):
-                                    amount_total_23 += int(source_cell.value)
-                                else:
-                                    print("Non-numeric value found in column 17")
-                            except ValueError:
-                                print("Non-integer value found in column 17")
+                        if j == 17:
+                            print(source_cell.value)
+                            amount_total_23 += int(source_cell.value)
+                        # if source_cell.value is not None:
+                        #     print(source_cell.value)
+                        #     try:
+                        #         if isinstance(source_cell.value, (str, int, float)):
+                        #             
+                        #         else:
+                        #             print("Non-numeric value found")
+                        #     except ValueError:
+                        #         print("Non-integer value found")
 
                 
                     start_row += 1
@@ -402,14 +397,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
 
-                        if j == 17 and source_cell.value is not None:
-                            try:
-                                if isinstance(source_cell.value, (int, float)):
-                                    amount_total_32 += int(source_cell.value)
-                                else:
-                                    print("Non-numeric value found in column 17")
-                            except ValueError:
-                                print("Non-integer value found in column 17")
+                        if j == 17:
+                            print(source_cell.value)
+                            amount_total_32 += int(source_cell.value)
                             
                     
                     start_row += 1
@@ -475,14 +465,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
 
-                        if j == 17 and source_cell.value is not None:
-                            try:
-                                if isinstance(source_cell.value, (int, float)):
-                                    amount_total_34 += int(source_cell.value)
-                                else:
-                                    print("Non-numeric value found in column 17")
-                            except ValueError:
-                                print("Non-integer value found in column 17")
+                        if j == 17:
+                            print(source_cell.value)
+                            amount_total_34 += int(source_cell.value)
 
                     start_row += 1
 
@@ -544,14 +529,9 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                             destination_cell.alignment = copy(
                                 source_cell.alignment)
 
-                        if j == 17 and source_cell.value is not None:
-                            try:
-                                if isinstance(source_cell.value, (int, float)):
-                                    amount_total_43 += int(source_cell.value)
-                                else:
-                                    print("Non-numeric value found in column 17")
-                            except ValueError:
-                                print("Non-integer value found in column 17")
+                        if j == 17:
+                            print(source_cell.value)
+                            amount_total_43 += int(source_cell.value)
 
                     start_row += 1
 
