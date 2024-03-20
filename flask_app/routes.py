@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect, flash, request, send_file
+from flask import render_template, url_for, redirect, flash, request, send_file, jsonify
 from flask_app import app, db, bcrypt
 from .models import ProcessedFiles, User
 import os, secrets
@@ -627,6 +627,19 @@ def delete_processed_files(id):
         db.session.delete(file)
         db.session.commit()
         flash('file removed', 'success')
+        return redirect(url_for('home'))
+    except Exception as e:
+        print(f"str{e}")
+        flash(f'str{e}', 'danger')
+        return redirect(url_for('home'))
+
+#Delete all files in one shot
+@app.route("/delete_all/", methods=['POST'])
+def delete_all_files():
+    try:
+        db.session.query(ProcessedFiles).delete()
+        db.session.commit()
+        flash('All files removed', 'success')
         return redirect(url_for('home'))
     except Exception as e:
         print(f"str{e}")
