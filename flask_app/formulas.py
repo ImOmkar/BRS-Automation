@@ -184,6 +184,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                         destination_cell = destination_sheet.cell(
                             row=start_row, column=j + 1)
                         destination_cell.value = source_cell.value
+                        
                         if source_cell.has_style:
                             destination_cell.font = copy(source_cell.font)
                             destination_cell.border = copy(source_cell.border)
