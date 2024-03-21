@@ -62,7 +62,7 @@ def home():
         if not current_user.is_authenticated:
             return redirect(url_for('login'))
         files = ProcessedFiles.query.order_by(ProcessedFiles.created_at)
-        return render_template('home.html', files=files, title="HDFC 4310 | Home")
+        return render_template('home.html', files=files, title="HDFC 4310 | Dashboard")
     except Exception as e:
         print(f"str{e}")
 
