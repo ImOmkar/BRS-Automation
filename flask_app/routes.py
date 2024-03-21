@@ -486,7 +486,9 @@ def get_data():
                                 # print(cell.row, cell.column, cell.value)
                                 if cell.row + 1 is not None:
                                     closing_balance = source_ws.cell(row=cell.row + 1, column=cell.column).value
-                                    workbook['TOP SHEET']['E8'].value = f"-{closing_balance}"
+                                    int_closing_balance = pd.to_numeric(closing_balance, errors='coerce')
+                                    negated_balance = -int_closing_balance if not pd.isna(int_closing_balance) else None
+                                    workbook['TOP SHEET']['E8'].value = negated_balance
 
                 workbook.save(file_path)
 
