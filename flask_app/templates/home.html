@@ -107,33 +107,10 @@
 
 
                         <div class="col ms-5 mt-4">
-                            <button type="submit" class="btn-purple"
+                            <button type="submit" class="btn btn-purple"
                                 >Proceed</button>
                         </div>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="fileInfoModal" tabindex="-1" aria-labelledby="fileInfoModalLabel"
-                            aria-hidden="true" data-bs-backdrop="static">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="d-flex align-items-center justify-content-around">
-                                            <h5>File name here</h5>
-                                            <h5>03/03/2024</h5>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 justify-content-center d-flex">
-                                        <button id="downloadBtn" type="button" class="btn-purple m-4"
-                                            onclick="handleFile()">Download <img src="../static/image/download.svg" alt=""
-                                                class="ms-3"></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
 
@@ -235,6 +212,14 @@
                 bootstrap.Alert.getOrCreateInstance(document.querySelector(".alert")).close();
             }, 1000)
         </script>
-        
+        <script>
+            function disableButton() {
+                // Disable the button after click
+                document.getElementById("proceedButton").disabled = true;
+                // Change button color to secondary
+                document.getElementById("proceedButton").classList.remove("btn-purple");
+                document.getElementById("proceedButton").classList.add("btn-secondary");
+            }
+        </script>
     </body>
 </html>

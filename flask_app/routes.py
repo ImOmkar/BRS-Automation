@@ -17,6 +17,18 @@ import re
 from flask_login import login_user, current_user, logout_user, login_required
 #=================================imports=============================#
 
+# Error handler for 404
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('error_pages/404.html'), 404
+
+# Error handler for 404
+@app.errorhandler(500)
+def error_500(error):
+    return render_template('error_pages/500.html'), 500
+
+#================================Error pages============================#
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -54,6 +66,8 @@ def logout():
     logout_user()
     flash("You've been successfully logged out from your account!", 'success')
     return redirect(url_for('login'))
+
+#=================================Auth routes==========================#
 
 @app.route("/", methods=['GET'])
 @app.route("/home", methods=['GET'])
@@ -611,6 +625,9 @@ def get_data():
         flash("Select files", 'danger')
     return redirect(url_for('home'))
     
+
+#================================Download and Delete files routes===================#    
+       
 #download link through flask app
 @app.route('/download/<path:filepath>')
 def download_file(filepath):
@@ -647,6 +664,8 @@ def delete_all_files():
         print(f"str{e}")
         flash(f'str{e}', 'danger')
         return redirect(url_for('home'))
+
+#================================Download and Delete files routes===================#
 
 # to save file and return dictionary
 def save_file(form_file):

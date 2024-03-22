@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <!-- tailwindcss file -->
     <link rel="stylesheet" href="../static/output.css">
 </head>
 <body>
@@ -41,26 +42,23 @@
             </form>
         </div>
     </div>
-     
-     <script>
-        let eyeicon = document.getElementById("eyeicon");
-        let password = document.getElementById("password");
-
-        eyeicon.onclick=function(){
-            if(password.type == "password")
-            {
-                password.type = "text";
-                eyeicon.src="../static/image/eye-open.png";
-             }
-        else
-        {
-            password.type = "password";
-            eyeicon.src="../static/image/eye-close.png";
-        }
-     }
-
-     </script>
     
-     {% include "js.html" %}
+    <script src="../static/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="../static/js/jquery.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/datatable.js"></script>
+    <script src="../static/js/datatables_button.js"></script>
+    <script src="../static/js/cloudfare.js"></script>
+    <script src="../static/js/datatables_buttons_html5.js"></script>
+    <script src="../static/js/cloudflare_momnet_min.js"></script>
+    <script src="../static/js/file_proceed.js"></script>
+    <script src="../static/js/file.js"></script>
+    <script src="../static/js/popup.js"></script>
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/clear.js"></script>
+    <script>
+        setTimeout(function() {
+            bootstrap.Alert.getOrCreateInstance(document.querySelector(".alert")).close();
+        }, 1000)
+    </script>
 </body>
 </html>
