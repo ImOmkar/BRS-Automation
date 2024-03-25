@@ -294,10 +294,6 @@ body {
   border: none;
 }
 
-.row1 {
-  margin-left: 70px;
-}
-
 h4 {
   color: #81689d;
 }
@@ -342,6 +338,7 @@ h4 {
   .show-modal {
     position: relative;
   }
+
 }
 @media screen and (max-width: 575px) {
   .show-modal {
@@ -349,3 +346,6 @@ h4 {
     position: fixed;
   }
 }
+
+
+

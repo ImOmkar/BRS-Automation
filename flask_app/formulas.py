@@ -451,7 +451,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
     except Exception as e:
         print(f'{str(e)}')
     
-    # Remove matched rows from Sheet1
+    # Remove matched rows from Sheet2
     for i in range(sheet2.max_row, 5, -1):
         for index, (row_index, data_row) in enumerate(matched_data_2_3):
             match_found = True
@@ -464,7 +464,7 @@ def knockoff_matching(sheet1, sheet2, sheet3, sheet4, destination_sheet, top_she
                 del matched_data_2_3[index]
                 break
             
-    # Remove matched rows from Sheet4
+    # Remove matched rows from Sheet3
     for i in range(sheet3.max_row, 5, -1):
         for index, (row_index, data_row) in enumerate(matched_data_3_2):
             match_found = True

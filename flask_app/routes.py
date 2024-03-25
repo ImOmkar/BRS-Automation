@@ -28,7 +28,6 @@ def error_500(error):
     return render_template('error_pages/500.html'), 500
 
 #================================Error pages============================#
-
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -66,7 +65,6 @@ def logout():
     logout_user()
     flash("You've been successfully logged out from your account!", 'success')
     return redirect(url_for('login'))
-
 #=================================Auth routes==========================#
 
 @app.route("/", methods=['GET'])
@@ -625,7 +623,6 @@ def get_data():
         flash("Select files", 'danger')
     return redirect(url_for('home'))
     
-
 #================================Download and Delete files routes===================#    
        
 #download link through flask app
